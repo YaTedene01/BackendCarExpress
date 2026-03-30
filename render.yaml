@@ -1,0 +1,51 @@
+services:
+  - type: web
+    name: carexpress-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Car Express API
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        fromService:
+          type: web
+          name: carexpress-api
+          property: url
+      - key: PORT
+        value: "10000"
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: carexpress-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: carexpress-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: carexpress-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: carexpress-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: carexpress-db
+          property: password
+      - key: DB_SSLMODE
+        value: require
+
+databases:
+  - name: carexpress-db
+    databaseName: carexpress
+    plan: free

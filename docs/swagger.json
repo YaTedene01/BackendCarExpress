@@ -1,0 +1,700 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Car Express API",
+        "description": "API Laravel professionnelle pour Car Express.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Serveur API"
+        }
+    ],
+    "paths": {
+        "/api/v1/administration/agences": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "ec5d3e5e87fc3cae3238d50e19ab3c30",
+                "responses": {
+                    "200": {
+                        "description": "Agences administration"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "5dcbc440b9771431609ec79968811dd7",
+                "responses": {
+                    "201": {
+                        "description": "Agence créée"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/administration/agences/{agency}/statut": {
+            "patch": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "fa33eb350b2411820f1d73c7f21883b8",
+                "parameters": [
+                    {
+                        "name": "agency",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut agence mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/administration/tableau-de-bord": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "606926d32168255ef43a6ce6907a7897",
+                "responses": {
+                    "200": {
+                        "description": "Tableau de bord administration"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/administration/systeme": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "8018b07e9f3a80cc597b4ed5f948e0c0",
+                "responses": {
+                    "200": {
+                        "description": "État système"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/administration/utilisateurs": {
+            "get": {
+                "tags": [
+                    "Administration"
+                ],
+                "operationId": "5223c1a0f133d9a6010bb8cae76a36d9",
+                "responses": {
+                    "200": {
+                        "description": "Utilisateurs administration"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/tableau-de-bord": {
+            "get": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "21f41a00626b76b340ed8af3c5035408",
+                "responses": {
+                    "200": {
+                        "description": "Tableau de bord agence"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/profil": {
+            "get": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "58741cbf54c82c16bc1194e391127b68",
+                "responses": {
+                    "200": {
+                        "description": "Profil agence"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "c0425b2bdf21543a46eaca093d26bb9e",
+                "responses": {
+                    "200": {
+                        "description": "Profil agence mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/demandes-achat": {
+            "get": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "bb2fb28a67df70f232605a2e5a71dcb3",
+                "responses": {
+                    "200": {
+                        "description": "Demandes d'achat agence"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/demandes-achat/{purchaseRequest}/statut": {
+            "patch": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "4e9794fca923c03446421db5127b78d5",
+                "parameters": [
+                    {
+                        "name": "purchaseRequest",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut demande achat mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/reservations": {
+            "get": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "341105dd06188de6f2a8794756acde49",
+                "responses": {
+                    "200": {
+                        "description": "Réservations agence"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/reservations/{reservation}/statut": {
+            "patch": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "9d426516c540fbfa05335bda9ab38065",
+                "parameters": [
+                    {
+                        "name": "reservation",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Statut réservation mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/vehicules": {
+            "get": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "f9e2b06c07cb43dea3a955b3be49d899",
+                "responses": {
+                    "200": {
+                        "description": "Véhicules agence"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "a22a59c7e1bbbbc7827c4b8c7ef698f9",
+                "responses": {
+                    "201": {
+                        "description": "Véhicule créé"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agence/vehicules/{vehicle}": {
+            "put": {
+                "tags": [
+                    "Agence"
+                ],
+                "operationId": "b01b5e4a64f6cd2210dac5fdb4e2a98b",
+                "parameters": [
+                    {
+                        "name": "vehicle",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Véhicule mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/authentification/client/inscription": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "86bbd9d2f6ce85f6ed005329d20279d5",
+                "responses": {
+                    "201": {
+                        "description": "Client créé"
+                    }
+                }
+            }
+        },
+        "/api/v1/authentification/connexion": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "0fe7a6a1f222955ac1ce302c605f7df0",
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie"
+                    }
+                }
+            }
+        },
+        "/api/v1/authentification/moi": {
+            "get": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "afa1269b5e41da5bb4357563588c0304",
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur courant"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/authentification/deconnexion": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "bcd3da0ecdfb65516dceb7ccd69673a3",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/client/alertes": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "925651efec1c1b86bbab4e3c22e4ac3b",
+                "responses": {
+                    "200": {
+                        "description": "Alertes client"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/client/alertes/{alert}/lire": {
+            "patch": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "a6fdad4c720fbaa7b3cd7f1bd327c388",
+                "parameters": [
+                    {
+                        "name": "alert",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Alerte lue"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/client/profil": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "6796f6269e94d8c502460a6aac9302a0",
+                "responses": {
+                    "200": {
+                        "description": "Profil client"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "914ae9507f492c92ac0923d12c599303",
+                "responses": {
+                    "200": {
+                        "description": "Profil client mis à jour"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/client/demandes-achat": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "2e19353e876b82c2714c397882c2e8de",
+                "responses": {
+                    "200": {
+                        "description": "Demandes d'achat client"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "897ff8af9f106975fb9e807d0ce49032",
+                "responses": {
+                    "201": {
+                        "description": "Demande d'achat créée"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/client/reservations": {
+            "get": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "67002b55533437d574a0ef0dbebc191e",
+                "responses": {
+                    "200": {
+                        "description": "Réservations client"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Client"
+                ],
+                "operationId": "2502b2d4e57b867d5bfaab9d2e3cb7e5",
+                "responses": {
+                    "201": {
+                        "description": "Réservation créée"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/agences": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "195bbf636dbc75436b9398335b08c1e6",
+                "responses": {
+                    "200": {
+                        "description": "Liste des agences"
+                    }
+                }
+            }
+        },
+        "/api/v1/agences/{slug}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "ce986fe34dd51826ac236baf555c732b",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail agence"
+                    }
+                }
+            }
+        },
+        "/api/v1/vehicules": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "114d73dba5cd7b195da121f686e589fa",
+                "responses": {
+                    "200": {
+                        "description": "Liste des véhicules"
+                    }
+                }
+            }
+        },
+        "/api/v1/vehicules/{vehicle}": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "7e8af9222a7c639489e30a7dc4168c45",
+                "parameters": [
+                    {
+                        "name": "vehicle",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détail véhicule"
+                    }
+                }
+            }
+        },
+        "/api/v1/vehicules/{vehicle}/disponibilite": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "f2731e33b30bbc86d14b3cba3368126b",
+                "parameters": [
+                    {
+                        "name": "vehicle",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "pickup_date",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "return_date",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Disponibilité véhicule"
+                    }
+                }
+            }
+        },
+        "/api/v1/metadonnees": {
+            "get": {
+                "tags": [
+                    "Public"
+                ],
+                "operationId": "ae7a3c113503f61a67728b0bab373986",
+                "responses": {
+                    "200": {
+                        "description": "Métadonnées de filtres"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "Bearer",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Public"
+        },
+        {
+            "name": "Authentification"
+        },
+        {
+            "name": "Client"
+        },
+        {
+            "name": "Agence"
+        },
+        {
+            "name": "Administration"
+        }
+    ]
+}
