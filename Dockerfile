@@ -17,15 +17,14 @@ RUN apt-get update \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-COPY composer.json composer.lock ./
+COPY . .
+
 RUN composer install \
     --no-dev \
     --no-interaction \
     --no-progress \
     --prefer-dist \
     --optimize-autoloader
-
-COPY . .
 
 RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chown -R www-data:www-data storage bootstrap/cache

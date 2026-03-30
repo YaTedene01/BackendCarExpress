@@ -2660,12 +2660,12 @@
                 ]
             }
         },
-        "/api/v1/agences": {
+        "/api/v1/catalogue/agences": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "195bbf636dbc75436b9398335b08c1e6",
+                "operationId": "67bafbfee39b79fcda650f69c09e8713",
                 "responses": {
                     "200": {
                         "description": "Liste des agences recuperee",
@@ -2706,12 +2706,12 @@
                 }
             }
         },
-        "/api/v1/agences/{slug}": {
+        "/api/v1/catalogue/agences/{slug}": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "ce986fe34dd51826ac236baf555c732b",
+                "operationId": "22faa00da98c200932e97317b60863d0",
                 "parameters": [
                     {
                         "name": "slug",
@@ -2769,12 +2769,12 @@
                 }
             }
         },
-        "/api/v1/vehicules": {
+        "/api/v1/catalogue/vehicules": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "114d73dba5cd7b195da121f686e589fa",
+                "operationId": "749162a0eef552c3e67e2c57cce35df7",
                 "responses": {
                     "200": {
                         "description": "Liste des vehicules recuperee",
@@ -2815,12 +2815,12 @@
                 }
             }
         },
-        "/api/v1/vehicules/{vehicle}": {
+        "/api/v1/catalogue/vehicules/{vehicle}": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "7e8af9222a7c639489e30a7dc4168c45",
+                "operationId": "f95d5306ff4c11fc759584c510fcdd90",
                 "parameters": [
                     {
                         "name": "vehicle",
@@ -2878,12 +2878,12 @@
                 }
             }
         },
-        "/api/v1/vehicules/{vehicle}/disponibilite": {
+        "/api/v1/catalogue/vehicules/{vehicle}/verifier-disponibilite": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "f2731e33b30bbc86d14b3cba3368126b",
+                "operationId": "871f63265b84ba0186e236eba37b52fe",
                 "parameters": [
                     {
                         "name": "vehicle",
@@ -2987,12 +2987,12 @@
                 }
             }
         },
-        "/api/v1/metadonnees": {
+        "/api/v1/catalogue/vehicules/filtres": {
             "get": {
                 "tags": [
                     "Public"
                 ],
-                "operationId": "ae7a3c113503f61a67728b0bab373986",
+                "operationId": "e4c962990ca46563495406de5b43c0e2",
                 "responses": {
                     "200": {
                         "description": "Metadonnees de filtres recuperees",

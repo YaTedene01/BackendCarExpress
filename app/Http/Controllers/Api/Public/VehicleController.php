@@ -13,7 +13,7 @@ use OpenApi\Attributes as OA;
 class VehicleController extends Controller
 {
     #[OA\Get(
-        path: '/api/v1/vehicules',
+        path: '/api/v1/catalogue/vehicules',
         tags: ['Public'],
         responses: [
             new OA\Response(
@@ -31,7 +31,7 @@ class VehicleController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function index(Request $request): JsonResponse
+    public function listCatalogueVehicles(Request $request): JsonResponse
     {
         $vehicles = Vehicle::query()
             ->with('agency')
@@ -61,7 +61,7 @@ class VehicleController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/v1/vehicules/{vehicle}',
+        path: '/api/v1/catalogue/vehicules/{vehicle}',
         tags: ['Public'],
         parameters: [new OA\Parameter(name: 'vehicle', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))],
         responses: [
@@ -81,7 +81,7 @@ class VehicleController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function show(Vehicle $vehicle): JsonResponse
+    public function showCatalogueVehicle(Vehicle $vehicle): JsonResponse
     {
         return $this->successResponse(
             'Vehicule recupere avec succes.',
@@ -90,7 +90,7 @@ class VehicleController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/v1/vehicules/{vehicle}/disponibilite',
+        path: '/api/v1/catalogue/vehicules/{vehicle}/verifier-disponibilite',
         tags: ['Public'],
         parameters: [
             new OA\Parameter(name: 'vehicle', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
@@ -124,7 +124,7 @@ class VehicleController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function availability(Request $request, Vehicle $vehicle): JsonResponse
+    public function checkCatalogueVehicleAvailability(Request $request, Vehicle $vehicle): JsonResponse
     {
         $validated = $request->validate([
             'pickup_date' => ['required', 'date'],
@@ -151,7 +151,7 @@ class VehicleController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/v1/metadonnees',
+        path: '/api/v1/catalogue/vehicules/filtres',
         tags: ['Public'],
         responses: [
             new OA\Response(
@@ -178,7 +178,7 @@ class VehicleController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function metadata(): JsonResponse
+    public function listCatalogueVehicleFilters(): JsonResponse
     {
         return response()->json([
             'status' => true,

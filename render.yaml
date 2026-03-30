@@ -9,11 +9,18 @@ services:
     envVars:
       - key: APP_NAME
         value: Car Express API
+      - key: APP_KEY
+        generateValue: true
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
         value: "false"
       - key: APP_URL
+        fromService:
+          type: web
+          name: carexpress-api
+          property: url
+      - key: L5_SWAGGER_CONST_HOST
         fromService:
           type: web
           name: carexpress-api
@@ -44,6 +51,8 @@ services:
           property: password
       - key: DB_SSLMODE
         value: require
+      - key: LOG_CHANNEL
+        value: stderr
 
 databases:
   - name: carexpress-db

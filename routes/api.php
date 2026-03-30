@@ -19,12 +19,14 @@ use App\Http\Controllers\Api\Public\VehicleController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function (): void {
-    Route::get('/metadonnees', [VehicleController::class, 'metadata']);
-    Route::get('/vehicules', [VehicleController::class, 'index']);
-    Route::get('/vehicules/{vehicle}', [VehicleController::class, 'show']);
-    Route::get('/vehicules/{vehicle}/disponibilite', [VehicleController::class, 'availability']);
-    Route::get('/agences', [AgencyController::class, 'index']);
-    Route::get('/agences/{agency:slug}', [AgencyController::class, 'show']);
+    Route::prefix('catalogue')->group(function (): void {
+        Route::get('/vehicules/filtres', [VehicleController::class, 'listCatalogueVehicleFilters']);
+        Route::get('/vehicules', [VehicleController::class, 'listCatalogueVehicles']);
+        Route::get('/vehicules/{vehicle}', [VehicleController::class, 'showCatalogueVehicle']);
+        Route::get('/vehicules/{vehicle}/verifier-disponibilite', [VehicleController::class, 'checkCatalogueVehicleAvailability']);
+        Route::get('/agences', [AgencyController::class, 'listCatalogueAgencies']);
+        Route::get('/agences/{agency:slug}', [AgencyController::class, 'showCatalogueAgency']);
+    });
 
     Route::post('/authentification/client/inscription', [AuthController::class, 'registerClient']);
     Route::post('/authentification/connexion', [AuthController::class, 'login']);

@@ -11,7 +11,7 @@ use OpenApi\Attributes as OA;
 class AgencyController extends Controller
 {
     #[OA\Get(
-        path: '/api/v1/agences',
+        path: '/api/v1/catalogue/agences',
         tags: ['Public'],
         responses: [
             new OA\Response(
@@ -29,7 +29,7 @@ class AgencyController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function index(): JsonResponse
+    public function listCatalogueAgencies(): JsonResponse
     {
         $agencies = Agency::query()
             ->withCount('vehicles')
@@ -44,7 +44,7 @@ class AgencyController extends Controller
     }
 
     #[OA\Get(
-        path: '/api/v1/agences/{slug}',
+        path: '/api/v1/catalogue/agences/{slug}',
         tags: ['Public'],
         parameters: [new OA\Parameter(name: 'slug', in: 'path', required: true, schema: new OA\Schema(type: 'string'))],
         responses: [
@@ -64,7 +64,7 @@ class AgencyController extends Controller
             new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
         ]
     )]
-    public function show(Agency $agency): JsonResponse
+    public function showCatalogueAgency(Agency $agency): JsonResponse
     {
         return $this->successResponse(
             'Agence recuperee avec succes.',
