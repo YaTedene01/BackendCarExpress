@@ -10,7 +10,25 @@ use OpenApi\Attributes as OA;
 
 class AgencyController extends Controller
 {
-    #[OA\Get(path: '/api/v1/agences', tags: ['Public'], responses: [new OA\Response(response: 200, description: 'Liste des agences')])]
+    #[OA\Get(
+        path: '/api/v1/agences',
+        tags: ['Public'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Liste des agences recuperee',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Agences recuperees avec succes.'),
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(type: 'object'))
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
+    )]
     public function index(): JsonResponse
     {
         $agencies = Agency::query()
@@ -29,7 +47,22 @@ class AgencyController extends Controller
         path: '/api/v1/agences/{slug}',
         tags: ['Public'],
         parameters: [new OA\Parameter(name: 'slug', in: 'path', required: true, schema: new OA\Schema(type: 'string'))],
-        responses: [new OA\Response(response: 200, description: 'Détail agence')]
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Detail agence recupere',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Agence recuperee avec succes.'),
+                        new OA\Property(property: 'data', type: 'object')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 404, description: 'Agence introuvable', content: new OA\JsonContent(ref: '#/components/schemas/NotFoundResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
     )]
     public function show(Agency $agency): JsonResponse
     {

@@ -12,7 +12,25 @@ use OpenApi\Attributes as OA;
 
 class VehicleController extends Controller
 {
-    #[OA\Get(path: '/api/v1/vehicules', tags: ['Public'], responses: [new OA\Response(response: 200, description: 'Liste des véhicules')])]
+    #[OA\Get(
+        path: '/api/v1/vehicules',
+        tags: ['Public'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Liste des vehicules recuperee',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Vehicules recuperes avec succes.'),
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(type: 'object'))
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         $vehicles = Vehicle::query()
@@ -46,7 +64,22 @@ class VehicleController extends Controller
         path: '/api/v1/vehicules/{vehicle}',
         tags: ['Public'],
         parameters: [new OA\Parameter(name: 'vehicle', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))],
-        responses: [new OA\Response(response: 200, description: 'Détail véhicule')]
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Detail vehicule recupere',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Vehicule recupere avec succes.'),
+                        new OA\Property(property: 'data', type: 'object')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 404, description: 'Vehicule introuvable', content: new OA\JsonContent(ref: '#/components/schemas/NotFoundResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
     )]
     public function show(Vehicle $vehicle): JsonResponse
     {
@@ -64,7 +97,32 @@ class VehicleController extends Controller
             new OA\Parameter(name: 'pickup_date', in: 'query', required: true, schema: new OA\Schema(type: 'string', format: 'date')),
             new OA\Parameter(name: 'return_date', in: 'query', required: true, schema: new OA\Schema(type: 'string', format: 'date')),
         ],
-        responses: [new OA\Response(response: 200, description: 'Disponibilité véhicule')]
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Disponibilite verifiee',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Disponibilite verifiee avec succes.'),
+                        new OA\Property(
+                            property: 'data',
+                            properties: [
+                                new OA\Property(property: 'vehicle_id', type: 'integer', example: 12),
+                                new OA\Property(property: 'available', type: 'boolean', example: true),
+                                new OA\Property(property: 'pickup_date', type: 'string', example: '2026-04-05'),
+                                new OA\Property(property: 'return_date', type: 'string', example: '2026-04-10')
+                            ],
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 404, description: 'Vehicule introuvable', content: new OA\JsonContent(ref: '#/components/schemas/NotFoundResponse')),
+            new OA\Response(response: 422, description: 'Erreur de validation', content: new OA\JsonContent(ref: '#/components/schemas/ValidationErrorResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
     )]
     public function availability(Request $request, Vehicle $vehicle): JsonResponse
     {
@@ -92,7 +150,34 @@ class VehicleController extends Controller
         ]);
     }
 
-    #[OA\Get(path: '/api/v1/metadonnees', tags: ['Public'], responses: [new OA\Response(response: 200, description: 'Métadonnées de filtres')])]
+    #[OA\Get(
+        path: '/api/v1/metadonnees',
+        tags: ['Public'],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Metadonnees de filtres recuperees',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Metadonnees recuperees avec succes.'),
+                        new OA\Property(
+                            property: 'data',
+                            properties: [
+                                new OA\Property(property: 'brands', type: 'array', items: new OA\Items(type: 'string')),
+                                new OA\Property(property: 'categories', type: 'array', items: new OA\Items(type: 'string')),
+                                new OA\Property(property: 'cities', type: 'array', items: new OA\Items(type: 'string')),
+                                new OA\Property(property: 'listing_types', type: 'array', items: new OA\Items(type: 'string'))
+                            ],
+                            type: 'object'
+                        )
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
+    )]
     public function metadata(): JsonResponse
     {
         return response()->json([

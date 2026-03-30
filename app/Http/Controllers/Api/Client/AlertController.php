@@ -11,7 +11,27 @@ use OpenApi\Attributes as OA;
 
 class AlertController extends Controller
 {
-    #[OA\Get(path: '/api/v1/client/alertes', tags: ['Client'], security: [['sanctum' => []]], responses: [new OA\Response(response: 200, description: 'Alertes client')])]
+    #[OA\Get(
+        path: '/api/v1/client/alertes',
+        tags: ['Client'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Alertes client recuperees',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Alertes recuperees avec succes.'),
+                        new OA\Property(property: 'data', type: 'array', items: new OA\Items(type: 'object'))
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 401, description: 'Token manquant ou invalide', content: new OA\JsonContent(ref: '#/components/schemas/UnauthorizedResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         return $this->successResponse(
@@ -27,7 +47,24 @@ class AlertController extends Controller
         tags: ['Client'],
         security: [['sanctum' => []]],
         parameters: [new OA\Parameter(name: 'alert', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))],
-        responses: [new OA\Response(response: 200, description: 'Alerte lue')]
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Alerte marquee comme lue',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'status', type: 'boolean', example: true),
+                        new OA\Property(property: 'message', type: 'string', example: 'Alerte marquee comme lue.'),
+                        new OA\Property(property: 'data', type: 'object')
+                    ],
+                    type: 'object'
+                )
+            ),
+            new OA\Response(response: 401, description: 'Token manquant ou invalide', content: new OA\JsonContent(ref: '#/components/schemas/UnauthorizedResponse')),
+            new OA\Response(response: 403, description: 'Acces interdit', content: new OA\JsonContent(ref: '#/components/schemas/ForbiddenResponse')),
+            new OA\Response(response: 404, description: 'Alerte introuvable', content: new OA\JsonContent(ref: '#/components/schemas/NotFoundResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
     )]
     public function markAsRead(Request $request, Alert $alert): JsonResponse
     {

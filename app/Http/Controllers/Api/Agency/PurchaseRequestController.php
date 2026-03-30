@@ -12,7 +12,17 @@ use OpenApi\Attributes as OA;
 
 class PurchaseRequestController extends Controller
 {
-    #[OA\Get(path: '/api/v1/agence/demandes-achat', tags: ['Agence'], security: [['sanctum' => []]], responses: [new OA\Response(response: 200, description: 'Demandes d\'achat agence')])]
+    #[OA\Get(
+        path: '/api/v1/agence/demandes-achat',
+        tags: ['Agence'],
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(response: 200, description: 'Demandes d achat agence recuperees', content: new OA\JsonContent(properties: [new OA\Property(property: 'status', type: 'boolean', example: true), new OA\Property(property: 'message', type: 'string', example: 'Demandes d achat recuperees avec succes.'), new OA\Property(property: 'data', type: 'array', items: new OA\Items(type: 'object'))], type: 'object')),
+            new OA\Response(response: 401, description: 'Token manquant ou invalide', content: new OA\JsonContent(ref: '#/components/schemas/UnauthorizedResponse')),
+            new OA\Response(response: 403, description: 'Acces interdit', content: new OA\JsonContent(ref: '#/components/schemas/ForbiddenResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
+    )]
     public function index(Request $request): JsonResponse
     {
         $requests = PurchaseRequest::query()
@@ -32,7 +42,15 @@ class PurchaseRequestController extends Controller
         tags: ['Agence'],
         security: [['sanctum' => []]],
         parameters: [new OA\Parameter(name: 'purchaseRequest', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))],
-        responses: [new OA\Response(response: 200, description: 'Statut demande achat mis à jour')]
+        requestBody: new OA\RequestBody(required: true, content: new OA\JsonContent(required: ['status'], properties: [new OA\Property(property: 'status', type: 'string', example: 'contacted')], type: 'object')),
+        responses: [
+            new OA\Response(response: 200, description: 'Statut demande achat mis a jour', content: new OA\JsonContent(properties: [new OA\Property(property: 'status', type: 'boolean', example: true), new OA\Property(property: 'message', type: 'string', example: 'Statut de la demande d achat mis a jour.'), new OA\Property(property: 'data', type: 'object')], type: 'object')),
+            new OA\Response(response: 401, description: 'Token manquant ou invalide', content: new OA\JsonContent(ref: '#/components/schemas/UnauthorizedResponse')),
+            new OA\Response(response: 403, description: 'Acces interdit', content: new OA\JsonContent(ref: '#/components/schemas/ForbiddenResponse')),
+            new OA\Response(response: 404, description: 'Demande d achat introuvable', content: new OA\JsonContent(ref: '#/components/schemas/NotFoundResponse')),
+            new OA\Response(response: 422, description: 'Erreur de validation', content: new OA\JsonContent(ref: '#/components/schemas/ValidationErrorResponse')),
+            new OA\Response(response: 500, description: 'Erreur serveur', content: new OA\JsonContent(ref: '#/components/schemas/ServerErrorResponse'))
+        ]
     )]
     public function updateStatus(UpdatePurchaseRequestStatusRequest $request, PurchaseRequest $purchaseRequest): JsonResponse
     {
