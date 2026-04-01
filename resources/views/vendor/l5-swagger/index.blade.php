@@ -125,9 +125,7 @@
     window.onload = function() {
         const urls = [];
 
-        @foreach($urlsToDocs as $title => $url)
-            urls.push({name: "{{ $title }}", url: "{{ $url }}"});
-        @endforeach
+        urls.push({name: "{{ $documentationTitle }}", url: "{{ route('swagger.openapi', [], $useAbsolutePath) }}"});
 
         // Build a system
         const ui = SwaggerUIBundle({

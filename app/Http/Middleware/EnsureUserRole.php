@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,7 +13,11 @@ class EnsureUserRole
     {
         $user = $request->user();
 
-        if (! $user || ! in_array($user->role->value ?? $user->role, $roles, true)) {
+        if (! $user) {
+            throw new AuthenticationException('Authentification requise ou jeton invalide.');
+        }
+
+        if (! in_array($user->role->value ?? $user->role, $roles, true)) {
             abort(Response::HTTP_FORBIDDEN, 'You are not allowed to access this resource.');
         }
 

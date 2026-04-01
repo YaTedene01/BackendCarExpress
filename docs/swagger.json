@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost",
+            "url": "https://backendcarexpress.onrender.com",
             "description": "Serveur API"
         }
     ],
@@ -1655,12 +1655,83 @@
                 }
             }
         },
-        "/api/v1/authentification/connexion": {
+        "/api/v1/authentification/agence/inscription": {
             "post": {
                 "tags": [
                     "Authentification"
                 ],
-                "operationId": "0fe7a6a1f222955ac1ce302c605f7df0",
+                "operationId": "cfcdfb55d16de6905ec37e4811c56800",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "company",
+                                    "phone",
+                                    "email",
+                                    "city",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "company": {
+                                        "type": "string",
+                                        "example": "Dakar Auto Services"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "+221771234567"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "contact@dakar-auto.sn"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "example": "Dakar"
+                                    },
+                                    "activity": {
+                                        "type": "string",
+                                        "example": "Location et vente"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "agency12345"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "agency12345"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "agency-web"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Compte agence cree"
+                    },
+                    "422": {
+                        "description": "Erreur de validation"
+                    }
+                }
+            }
+        },
+        "/api/v1/authentification/client/connexion": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "af2d66441d6a3fdb16cc3ac14fc2642d",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1668,8 +1739,7 @@
                             "schema": {
                                 "required": [
                                     "identifier",
-                                    "password",
-                                    "role"
+                                    "password"
                                 ],
                                 "properties": {
                                     "identifier": {
@@ -1681,18 +1751,9 @@
                                         "format": "password",
                                         "example": "client12345"
                                     },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "client",
-                                        "enum": [
-                                            "client",
-                                            "agency",
-                                            "admin"
-                                        ]
-                                    },
                                     "device_name": {
                                         "type": "string",
-                                        "example": "web-app"
+                                        "example": "client-web"
                                     }
                                 },
                                 "type": "object"
@@ -1702,129 +1763,110 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Authentification reussie",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Connexion reussie."
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "token": {
-                                                    "type": "string",
-                                                    "example": "1|zXc123tokenvalue"
-                                                },
-                                                "token_type": {
-                                                    "type": "string",
-                                                    "example": "Bearer"
-                                                },
-                                                "utilisateur": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 7
-                                                        },
-                                                        "name": {
-                                                            "type": "string",
-                                                            "example": "Client Demo"
-                                                        },
-                                                        "email": {
-                                                            "type": "string",
-                                                            "format": "email",
-                                                            "example": "client@carexpress.sn"
-                                                        },
-                                                        "phone": {
-                                                            "type": "string",
-                                                            "example": "+221770000000"
-                                                        },
-                                                        "city": {
-                                                            "type": "string",
-                                                            "example": "Dakar"
-                                                        },
-                                                        "role": {
-                                                            "type": "string",
-                                                            "example": "client"
-                                                        }
-                                                    },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Authentification refusee",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Authentification requise ou jeton invalide."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Connexion client reussie"
                     },
                     "422": {
-                        "description": "Erreur de validation ou identifiants invalides",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Les donnees fournies sont invalides."
-                                        },
-                                        "errors": {
-                                            "properties": {
-                                                "identifier": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "example": "Les identifiants fournis sont invalides."
-                                                    }
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Erreur de validation ou identifiants invalides"
                     }
                 }
             }
         },
-        "/api/v1/authentification/moi": {
+        "/api/v1/authentification/agence/connexion": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "269a3523e4fc75797b9a4d8b4041eb32",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "identifier",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "example": "agency+dakar-auto-services@carexpress.sn"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "agency12345"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "agency-web"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion agence reussie"
+                    },
+                    "422": {
+                        "description": "Erreur de validation ou identifiants invalides"
+                    }
+                }
+            }
+        },
+        "/api/v1/authentification/superadmin/connexion": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "operationId": "faaa7afcaf05f6f737a4213a5c1c0570",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "identifier",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "identifier": {
+                                        "type": "string",
+                                        "example": "admin@carexpress.sn"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "admin12345"
+                                    },
+                                    "device_name": {
+                                        "type": "string",
+                                        "example": "admin-web"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion superadmin reussie"
+                    },
+                    "422": {
+                        "description": "Erreur de validation ou identifiants invalides"
+                    }
+                }
+            }
+        },
+        "/api/v1/authentification/utilisateur-connecte": {
             "get": {
                 "tags": [
                     "Authentification"
                 ],
-                "operationId": "afa1269b5e41da5bb4357563588c0304",
+                "operationId": "032eb2d98a224ae021e815f8f917404d",
                 "responses": {
                     "200": {
                         "description": "Utilisateur courant recupere",
@@ -2665,7 +2707,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "94aa1cb7c028bfd1741a9b75f0674bac",
+                "operationId": "67bafbfee39b79fcda650f69c09e8713",
                 "responses": {
                     "200": {
                         "description": "Liste des agences recuperee",
@@ -2711,7 +2753,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "5b5576a5bccb8a4ffc52f9df6a0d18ba",
+                "operationId": "22faa00da98c200932e97317b60863d0",
                 "parameters": [
                     {
                         "name": "slug",
@@ -2774,7 +2816,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "bc4adfe0019c798769a76bc17ee44648",
+                "operationId": "749162a0eef552c3e67e2c57cce35df7",
                 "responses": {
                     "200": {
                         "description": "Liste des vehicules recuperee",
@@ -2820,7 +2862,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "264917e23b42841db4c7aee3069e5999",
+                "operationId": "f95d5306ff4c11fc759584c510fcdd90",
                 "parameters": [
                     {
                         "name": "vehicle",
@@ -2883,7 +2925,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "9d9b38596458d7c9d0c1cdde09e306e7",
+                "operationId": "871f63265b84ba0186e236eba37b52fe",
                 "parameters": [
                     {
                         "name": "vehicle",
@@ -2992,7 +3034,7 @@
                 "tags": [
                     "Public"
                 ],
-                "operationId": "e2abbabebe5cfb4c409b83d82d627cfd",
+                "operationId": "e4c962990ca46563495406de5b43c0e2",
                 "responses": {
                     "200": {
                         "description": "Metadonnees de filtres recuperees",
