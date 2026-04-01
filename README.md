@@ -141,8 +141,11 @@ Toutes les routes sont préfixées par `/api/v1`.
 Les endpoints publics de consultation ont ete renommes pour etre plus explicites :
 
 - `POST /api/v1/authentification/client/inscription` : inscription client compatible avec le formulaire front
+- `POST /api/v1/authentification/client/connexion` : connexion dediee client
 - `POST /api/v1/authentification/agence/inscription` : inscription agence depuis le formulaire partenaire
-- `POST /api/v1/authentification/connexion` : connexion par role avec email ou telephone
+- `POST /api/v1/authentification/agence/connexion` : connexion dediee agence
+- `POST /api/v1/authentification/superadmin/connexion` : connexion dediee superadmin
+- `GET /api/v1/authentification/utilisateur-connecte` : recupere l'utilisateur actuellement authentifie
 - `GET /api/v1/catalogue/agences` : liste des agences visibles dans le catalogue public
 - `GET /api/v1/catalogue/agences/{slug}` : detail d'une agence publique
 - `GET /api/v1/catalogue/vehicules` : liste des vehicules du catalogue public

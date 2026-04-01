@@ -29,11 +29,13 @@ Route::prefix('v1')->group(function (): void {
     });
 
     Route::post('/authentification/client/inscription', [AuthController::class, 'registerClient']);
+    Route::post('/authentification/client/connexion', [AuthController::class, 'loginClient']);
     Route::post('/authentification/agence/inscription', [AuthController::class, 'registerAgency']);
-    Route::post('/authentification/connexion', [AuthController::class, 'login']);
+    Route::post('/authentification/agence/connexion', [AuthController::class, 'loginAgency']);
+    Route::post('/authentification/superadmin/connexion', [AuthController::class, 'loginSuperAdmin']);
 
     Route::middleware('auth:sanctum')->group(function (): void {
-        Route::get('/authentification/moi', [AuthController::class, 'me']);
+        Route::get('/authentification/utilisateur-connecte', [AuthController::class, 'authenticatedUser']);
         Route::post('/authentification/deconnexion', [AuthController::class, 'logout']);
 
         Route::middleware('role:client')->prefix('client')->group(function (): void {

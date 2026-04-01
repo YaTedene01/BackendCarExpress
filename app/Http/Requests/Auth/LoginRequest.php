@@ -16,7 +16,6 @@ class LoginRequest extends FormRequest
         return [
             'identifier' => ['required', 'string', 'max:255'],
             'password' => ['required', 'string'],
-            'role' => ['required', 'string', 'in:client,agency,admin'],
             'device_name' => ['nullable', 'string', 'max:255'],
         ];
     }
