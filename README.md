@@ -81,6 +81,8 @@ Le projet est pret pour un deploiement Docker sur Render avec le manifest [`rend
 - `APP_DEBUG=false`
 - `APP_URL` : injecte depuis l'URL du service Render
 - `L5_SWAGGER_CONST_HOST` : injecte depuis l'URL du service Render
+- `CORS_ALLOWED_ORIGINS` : domaine du frontend autorise, par exemple `https://projet-car-express.vercel.app`
+- `SANCTUM_STATEFUL_DOMAINS` : domaine frontend pour les flux SPA si necessaire
 - `DB_*` : injectees depuis la base PostgreSQL Render
 - `DB_SSLMODE=require`
 
@@ -120,6 +122,8 @@ DB_DATABASE=carexpress
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 L5_SWAGGER_CONST_HOST=http://localhost:8000
+CORS_ALLOWED_ORIGINS=http://localhost:5173,https://projet-car-express.vercel.app
+SANCTUM_STATEFUL_DOMAINS=localhost:5173,127.0.0.1:5173,projet-car-express.vercel.app
 ```
 
 ## Comptes de démonstration
@@ -136,6 +140,9 @@ Toutes les routes sont préfixées par `/api/v1`.
 
 Les endpoints publics de consultation ont ete renommes pour etre plus explicites :
 
+- `POST /api/v1/authentification/client/inscription` : inscription client compatible avec le formulaire front
+- `POST /api/v1/authentification/agence/inscription` : inscription agence depuis le formulaire partenaire
+- `POST /api/v1/authentification/connexion` : connexion par role avec email ou telephone
 - `GET /api/v1/catalogue/agences` : liste des agences visibles dans le catalogue public
 - `GET /api/v1/catalogue/agences/{slug}` : detail d'une agence publique
 - `GET /api/v1/catalogue/vehicules` : liste des vehicules du catalogue public

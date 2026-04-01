@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AgencyRegisterRequest;
 use App\Http\Requests\Auth\ClientRegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\AgencyResource;
 use App\Http\Resources\UserResource;
 use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
@@ -107,6 +109,45 @@ class AuthController extends Controller
             'token' => $resultat['token'],
             'token_type' => 'Bearer',
             'utilisateur' => new UserResource($resultat['utilisateur']),
+        ], 201);
+    }
+
+    #[OA\Post(
+        path: '/api/v1/authentification/agence/inscription',
+        tags: ['Authentification'],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: ['company', 'phone', 'email', 'city', 'password', 'password_confirmation'],
+                properties: [
+                    new OA\Property(property: 'company', type: 'string', example: 'Dakar Auto Services'),
+                    new OA\Property(property: 'phone', type: 'string', example: '+221771234567'),
+                    new OA\Property(property: 'email', type: 'string', format: 'email', example: 'contact@dakar-auto.sn'),
+                    new OA\Property(property: 'city', type: 'string', example: 'Dakar'),
+                    new OA\Property(property: 'activity', type: 'string', example: 'Location et vente'),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', example: 'agency12345'),
+                    new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', example: 'agency12345'),
+                    new OA\Property(property: 'device_name', type: 'string', example: 'agency-web')
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(response: 201, description: 'Compte agence cree'),
+            new OA\Response(response: 422, description: 'Erreur de validation')
+        ]
+    )]
+    public function registerAgency(AgencyRegisterRequest $request): JsonResponse
+    {
+        $resultat = $this->authService->inscrireAgence([
+            ...$request->validated(),
+            'device_name' => $request->input('device_name', 'agency-web'),
+        ]);
+
+        return $this->successResponse('Compte agence créé avec succès.', [
+            'token' => $resultat['token'],
+            'token_type' => 'Bearer',
+            'utilisateur' => new UserResource($resultat['utilisateur']),
+            'agence' => new AgencyResource($resultat['agence']),
         ], 201);
     }
 

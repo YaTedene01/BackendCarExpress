@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientRegisterRequest extends FormRequest
+class AgencyRegisterRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,11 +14,13 @@ class ClientRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'company' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:30', 'unique:users,phone'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'city' => ['required', 'string', 'max:100'],
+            'activity' => ['nullable', 'string', 'max:100'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'device_name' => ['nullable', 'string', 'max:255'],
         ];
     }
 }

@@ -29,6 +29,7 @@ Route::prefix('v1')->group(function (): void {
     });
 
     Route::post('/authentification/client/inscription', [AuthController::class, 'registerClient']);
+    Route::post('/authentification/agence/inscription', [AuthController::class, 'registerAgency']);
     Route::post('/authentification/connexion', [AuthController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function (): void {
