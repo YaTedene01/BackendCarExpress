@@ -16,7 +16,22 @@ use App\Http\Controllers\Api\Client\PurchaseRequestController;
 use App\Http\Controllers\Api\Client\ReservationController;
 use App\Http\Controllers\Api\Public\AgencyController;
 use App\Http\Controllers\Api\Public\VehicleController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/docs/openapi.json', function () {
+    $path = storage_path('api-docs/api-docs.json');
+
+    abort_unless(File::exists($path), 404, 'Documentation OpenAPI introuvable.');
+
+    $payload = json_decode(File::get($path), true, 512, JSON_THROW_ON_ERROR);
+    $payload['servers'] = [[
+        'url' => rtrim(config('app.url'), '/'),
+        'description' => 'Serveur API',
+    ]];
+
+    return response()->json($payload);
+})->name('swagger.openapi');
 
 Route::prefix('v1')->group(function (): void {
     Route::prefix('catalogue')->group(function (): void {
