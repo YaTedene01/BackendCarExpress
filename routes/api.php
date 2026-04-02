@@ -20,17 +20,29 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/docs/openapi.json', function () {
-    $path = storage_path('api-docs/api-docs.json');
+    $path = base_path('docs/swagger.json');
 
     abort_unless(File::exists($path), 404, 'Documentation OpenAPI introuvable.');
 
-    $payload = json_decode(File::get($path), true, 512, JSON_THROW_ON_ERROR);
-    $payload['servers'] = [[
-        'url' => rtrim(config('app.url'), '/'),
-        'description' => 'Serveur API',
-    ]];
+    $content = File::get($path);
+    $productionUrl = rtrim(config('app.url'), '/');
 
-    return response()->json($payload);
+    // Force the served OpenAPI spec to advertise the deployed API URL,
+    // even if a generated file still contains a localhost server value.
+    $content = preg_replace(
+        '/"servers"\s*:\s*\[\s*\{\s*"url"\s*:\s*"[^"]*"\s*,\s*"description"\s*:\s*"Serveur API"\s*\}\s*\]/',
+        '"servers":'.json_encode([[
+            'url' => $productionUrl,
+            'description' => 'Serveur API',
+        ]], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE),
+        $content,
+        1
+    );
+
+    return response($content, 200, [
+        'Content-Type' => 'application/json; charset=UTF-8',
+        'Cache-Control' => 'public, max-age=60',
+    ]);
 })->name('swagger.openapi');
 
 Route::prefix('v1')->group(function (): void {
