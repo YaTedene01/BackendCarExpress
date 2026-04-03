@@ -37,7 +37,7 @@ class ApiProductionBehaviorTest extends TestCase
             ],
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        $this->getJson('/docs/openapi.json')
+        $this->getJson('/api/docs/openapi.json')
             ->assertOk()
             ->assertJsonPath('servers.0.url', 'https://backendcarexpress.onrender.com')
             ->assertJsonPath('servers.0.description', 'Serveur API');
