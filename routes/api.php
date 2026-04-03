@@ -16,10 +16,11 @@ use App\Http\Controllers\Api\Client\PurchaseRequestController;
 use App\Http\Controllers\Api\Client\ReservationController;
 use App\Http\Controllers\Api\Public\AgencyController;
 use App\Http\Controllers\Api\Public\VehicleController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/docs/openapi.json', function () {
+Route::get('/docs/openapi.json', function (Request $request) {
     $paths = [
         storage_path('api-docs/api-docs.json'),
         base_path('docs/swagger.json'),
@@ -33,8 +34,14 @@ Route::get('/docs/openapi.json', function () {
 
     abort_unless(is_array($content), 500, 'Documentation OpenAPI invalide.');
 
+    $serverUrl = $request->getSchemeAndHttpHost();
+
+    if ($serverUrl === '' || $serverUrl === 'http://localhost') {
+        $serverUrl = rtrim(config('app.url'), '/');
+    }
+
     $content['servers'] = [[
-        'url' => rtrim(config('app.url'), '/'),
+        'url' => rtrim($serverUrl, '/'),
         'description' => 'Serveur API',
     ]];
 

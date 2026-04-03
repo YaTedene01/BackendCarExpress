@@ -22,7 +22,7 @@ class ApiProductionBehaviorTest extends TestCase
 
     public function test_openapi_route_serves_current_app_url_as_server(): void
     {
-        config()->set('app.url', 'https://backendcarexpress.onrender.com');
+        config()->set('app.url', 'http://localhost:8000');
 
         $directory = storage_path('api-docs');
         File::ensureDirectoryExists($directory);
@@ -37,7 +37,10 @@ class ApiProductionBehaviorTest extends TestCase
             ],
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
-        $this->getJson('/api/docs/openapi.json')
+        $this->withServerVariables([
+            'HTTP_HOST' => 'backendcarexpress.onrender.com',
+            'HTTPS' => 'on',
+        ])->getJson('/api/docs/openapi.json')
             ->assertOk()
             ->assertJsonPath('servers.0.url', 'https://backendcarexpress.onrender.com')
             ->assertJsonPath('servers.0.description', 'Serveur API');
