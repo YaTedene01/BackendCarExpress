@@ -22,6 +22,16 @@ class UserRepository
             ->first();
     }
 
+    public function findByEmail(string $email): ?User
+    {
+        return User::query()->where('email', $email)->first();
+    }
+
+    public function findByPhone(string $phone): ?User
+    {
+        return User::query()->where('phone', $phone)->first();
+    }
+
     public function getAllWithAgency()
     {
         return User::query()->with('agency')->latest()->get();

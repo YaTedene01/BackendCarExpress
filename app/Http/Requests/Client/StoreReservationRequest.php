@@ -20,7 +20,7 @@ class StoreReservationRequest extends FormRequest
             'pickup_time' => ['required', 'date_format:H:i'],
             'return_date' => ['required', 'date', 'after:pickup_date'],
             'return_time' => ['required', 'date_format:H:i'],
-            'payment_method' => ['required', 'string', 'in:card,mobile_money,cash'],
+            'payment_method' => ['required', 'string', 'in:card,mobile_money'],
             'client_name' => ['required', 'string', 'max:255'],
             'client_phone' => ['required', 'string', 'max:30'],
             'identity_number' => ['required', 'string', 'max:100'],

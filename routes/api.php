@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AgencyController as AdminAgencyController;
+use App\Http\Controllers\Api\Admin\AgencyRegistrationRequestController as AdminAgencyRegistrationRequestController;
 use App\Http\Controllers\Api\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Api\Admin\SystemController as AdminSystemController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\Client\ProfileController;
 use App\Http\Controllers\Api\Client\PurchaseRequestController;
 use App\Http\Controllers\Api\Client\ReservationController;
 use App\Http\Controllers\Api\Public\AgencyController;
+use App\Http\Controllers\Api\Public\AgencyRegistrationRequestController;
 use App\Http\Controllers\Api\Public\VehicleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -66,6 +68,7 @@ Route::prefix('v1')->group(function (): void {
     Route::post('/authentification/agence/inscription', [AuthController::class, 'registerAgency']);
     Route::post('/authentification/agence/connexion', [AuthController::class, 'loginAgency']);
     Route::post('/authentification/superadmin/connexion', [AuthController::class, 'loginSuperAdmin']);
+    Route::post('/demandes-enregistrement-agence', [AgencyRegistrationRequestController::class, 'store']);
 
     Route::middleware('auth:sanctum')->group(function (): void {
         Route::get('/authentification/utilisateur-connecte', [AuthController::class, 'authenticatedUser']);
@@ -101,6 +104,12 @@ Route::prefix('v1')->group(function (): void {
             Route::post('/agences', [AdminAgencyController::class, 'store']);
             Route::patch('/agences/{agency}/statut', [AdminAgencyController::class, 'updateStatus']);
             Route::get('/utilisateurs', [AdminUserController::class, 'index']);
+            Route::get('/messages-demandes-agence', [AdminAgencyRegistrationRequestController::class, 'index']);
+            Route::get('/messages-demandes-agence/{agencyRegistrationRequest}', [AdminAgencyRegistrationRequestController::class, 'show']);
+            Route::get('/messages-demandes-agence/{agencyRegistrationRequest}/documents/{documentIndex}/telecharger', [AdminAgencyRegistrationRequestController::class, 'downloadDocument'])
+                ->whereNumber('documentIndex')
+                ->name('agency-registration-requests.documents.download');
+            Route::post('/messages-demandes-agence/{agencyRegistrationRequest}/enregistrer', [AdminAgencyRegistrationRequestController::class, 'approve']);
             Route::get('/systeme', AdminSystemController::class);
         });
     });

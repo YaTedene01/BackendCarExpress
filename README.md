@@ -122,8 +122,8 @@ DB_DATABASE=carexpress
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 L5_SWAGGER_CONST_HOST=http://localhost:8000
-CORS_ALLOWED_ORIGINS=http://localhost:5173,https://projet-car-express.vercel.app
-SANCTUM_STATEFUL_DOMAINS=localhost:5173,127.0.0.1:5173,projet-car-express.vercel.app
+CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:5174,http://127.0.0.1:5173,http://127.0.0.1:5174,https://projet-car-express.vercel.app
+SANCTUM_STATEFUL_DOMAINS=localhost:5173,localhost:5174,127.0.0.1:5173,127.0.0.1:5174,projet-car-express.vercel.app
 ```
 
 ## Comptes de démonstration

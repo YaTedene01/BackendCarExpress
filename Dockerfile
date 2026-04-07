@@ -38,4 +38,7 @@ ENV PORT=8000
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan migrate --force && php artisan l5-swagger:generate && php artisan serve --host=0.0.0.0 --port=${PORT}"]
+COPY docker/start.sh /usr/local/bin/start-app
+RUN chmod +x /usr/local/bin/start-app
+
+CMD ["/usr/local/bin/start-app"]

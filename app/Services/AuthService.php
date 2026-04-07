@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\UserRole;
+use App\Models\AgencyRegistrationRequest;
 use App\Repository\AgencyRepository;
 use App\Repository\UserRepository;
 use App\Utils\GenererReference;
@@ -75,9 +76,25 @@ class AuthService
         $user = $this->users->findByRoleAndIdentifier($data['role'], $data['identifier']);
 
         if (! $user || ! Hash::check($data['password'], $user->password)) {
+            if ($data['role'] === UserRole::Agency->value && $this->isPendingAgencyRegistration($data['identifier'])) {
+                throw ValidationException::withMessages([
+                    'identifier' => ['Votre demande est en attente de validation par l administration.'],
+                ]);
+            }
+
             throw ValidationException::withMessages([
                 'identifier' => ['Les identifiants fournis sont invalides.'],
             ]);
+        }
+
+        if ($data['role'] === UserRole::Agency->value) {
+            $agencyStatus = $user->agency?->status?->value ?? $user->agency?->status;
+
+            if ($agencyStatus !== 'active') {
+                throw ValidationException::withMessages([
+                    'identifier' => ['Votre agence n est pas encore active. Contactez l administration.'],
+                ]);
+            }
         }
 
         $user->forceFill(['last_login_at' => now()])->save();
@@ -97,5 +114,16 @@ class AuthService
         return $candidate !== ''
             ? ucwords($candidate)
             : 'Client Car Express';
+    }
+
+    private function isPendingAgencyRegistration(string $identifier): bool
+    {
+        return AgencyRegistrationRequest::query()
+            ->where('status', 'pending')
+            ->where(function ($query) use ($identifier): void {
+                $query->where('email', $identifier)
+                    ->orWhere('phone', $identifier);
+            })
+            ->exists();
     }
 }
